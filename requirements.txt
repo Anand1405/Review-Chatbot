@@ -6,3 +6,4 @@ langgraph
 python-dotenv
 pillow
 langchain_google_genai
+langchain_community

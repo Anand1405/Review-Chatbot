@@ -1,0 +1,8 @@
+streamlit
+pandas
+requests
+langchain
+langgraph
+google-play-scraper
+app-store-scraper
+python-dotenv

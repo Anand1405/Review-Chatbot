@@ -1,4 +1,4 @@
-streamlit
+streamlit>=1.50.0
 pandas
 requests
 langchain
@@ -6,3 +6,4 @@ langgraph
 google-play-scraper
 app-store-scraper
 python-dotenv
+pillow>=10.4.0

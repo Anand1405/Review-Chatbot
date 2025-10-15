@@ -83,9 +83,9 @@ def _session_with_retries() -> requests.Session:
         "raise_on_status": False,
     }
     try:
-        retries = Retry(allowed_methods=("GET",), **retry_kwargs)  [arg-type]
+        retries = Retry(allowed_methods=("GET",), **retry_kwargs)  
     except TypeError:  # compatibility with urllib3<1.26
-        retries = Retry(method_whitelist=("GET",), **retry_kwargs)  [arg-type]
+        retries = Retry(method_whitelist=("GET",), **retry_kwargs)  
     adapter = HTTPAdapter(max_retries=retries)
     session.mount("https://", adapter)
     session.headers.update(

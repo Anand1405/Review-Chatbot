@@ -72,29 +72,6 @@ class AgentState(TypedDict):
         A list of notes or error messages captured during execution.
     """
 
-class SequentialGraphRunner:
-    """Execute the agent nodes sequentially when LangGraph is missing."""
-
-    def __init__(self, steps: List[Callable[[AgentState], AgentState]]):
-        self._steps = steps
-
-    def stream(
-        self,
-        initial_state: AgentState,
-        config: Optional[Dict[str, Any]] = None,
-    ):
-        state = initial_state
-        for step in self._steps:
-            state = step(state)
-        yield state
-
-    def invoke(
-        self,
-        initial_state: AgentState,
-        config: Optional[Dict[str, Any]] = None,
-    ) -> AgentState:
-        return next(self.stream(initial_state, config=config))
-
 # -----------------------------------------------------------------------------
 # Helper functions
 
@@ -521,13 +498,6 @@ def summarise_answer(state: AgentState) -> AgentState:
 
 def build_graph(db_path: str) -> Any:
     """Construct a LangGraph graph for the chat agent."""
-    if not _LANGGRAPH_AVAILABLE:
-        steps = [
-            parse_filters,
-            lambda state: generate_sql_and_retrieve(state, db_path=db_path),
-            summarise_answer,
-        ]
-        return SequentialGraphRunner(steps)
 
     if MemorySaver is not None:
         # Use in-memory persistence if available.
